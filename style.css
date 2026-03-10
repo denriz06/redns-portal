@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --neon: #00f7ff;
+    --neon-rgb: 0,247,255;
+}
+
+/* ══════════════════════════════════
+   BODY — center murni
+   ══════════════════════════════════ */
+body {
+    min-height: 100vh;
+    background: #000;
+    overflow-x: hidden;
+    /* Flex center — TIDAK ada padding asimetris */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Padding seragam semua sisi */
+    padding: 24px 16px;
+}
+
+/* ══════════════════════════════════
+   WRAPPER — centering container
+   Ini yang mengurus ruang toggle di desktop
+   ══════════════════════════════════ */
+.page-center {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Ruang kanan untuk toggle — offset visual supaya box tetap tengah layar */
+    padding-right: 0;
+}
+
+/* ══════════════════════════════════
+   LOGIN BOX
+   ══════════════════════════════════ */
+.login-box {
+    position: relative;
+    z-index: 10;
+    width: 400px;
+    max-width: calc(100vw - 100px); /* sisakan ruang toggle */
+    min-height: 480px;
+    background: #191919;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow .5s ease;
+    border: 1px solid #1a1a1a;
+}
+
+
+/* ══════════════════════════════════
+   FORM — flex column center
+   ══════════════════════════════════ */
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 30px 0 20px;
+}
+/* ══════════════════════════════════
+   LAMPU GANTUNG
+   ══════════════════════════════════ */
+.login-light {
+    position: fixed;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: min(500px, 90vw);
+    height: 10px;
+    background: var(--neon);
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 0 24px var(--neon);
+    transition: background .5s, box-shadow .5s;
+    z-index: 999;
+}
+
+/* ══════════════════════════════════
+   CAHAYA SENTER
+   ══════════════════════════════════ */
+.light {
+    position: absolute;
+    top: -200%; left: 0;
+    width: 100%; height: 950px;
+    background: linear-gradient(to bottom, rgba(var(--neon-rgb),.08) -50%, transparent 90%);
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+    pointer-events: none;
+    transition: top .5s ease;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.login-box.neon-on .light { top: -80%; }
+
+/* ══════════════════════════════════
+   JUDUL
+   ══════════════════════════════════ */
+h2 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+    transition: color .5s, text-shadow .5s;
+}
+.login-box.neon-on h2 {
+    color: var(--neon);
+    text-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon);
+}
+
+/* ══════════════════════════════════
+   INPUT
+   ══════════════════════════════════ */
+.input-box {
+    position: relative;
+    width: min(310px, 85%);
+    margin: 30px 0;
+}
+.input-box .input-line {
+    position: absolute; bottom: -2px; left: 0;
+    width: 100%; height: 2.5px;
+    background: #fff; transition: .5s;
+}
+.login-box.neon-on .input-box .input-line { background: var(--neon); box-shadow: 0 0 10px var(--neon); }
+.input-box label {
+    position: absolute; top: 50%; left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em; color: #fff;
+    pointer-events: none; transition: .5s;
+}
+.input-box input:focus ~ label,
+.input-box input:valid ~ label { top: -5px; }
+.login-box.neon-on .input-box label { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+.input-box input {
+    width: 100%; height: 50px;
+    background: transparent; border: none; outline: none;
+    font-size: 1em; color: #fff;
+    padding: 0 35px 0 5px; transition: .5s;
+}
+.login-box.neon-on .input-box input { color: var(--neon); text-shadow: 0 0 5px var(--neon); }
+.input-box .icon {
+    position: absolute; right: 8px;
+    color: #fff; font-size: 1.2em; line-height: 57px; transition: .5s;
+}
+.login-box.neon-on .input-box .icon { color: var(--neon); filter: drop-shadow(0 0 5px var(--neon)); }
+
+/* ══════════════════════════════════
+   BUTTON
+   ══════════════════════════════════ */
+button {
+    width: 100%; height: 44px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    outline: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #aaa;
+    text-transform: uppercase;
+    transition: background .3s, color .3s, box-shadow .3s, border-color .3s;
+}
+button:hover {
+    background: #333;
+    color: #fff;
+    border-color: #666;
+}
+.login-box.neon-on button {
+    background: var(--neon);
+    border-color: var(--neon);
+    color: #000;
+    box-shadow: 0 0 18px var(--neon), 0 2px 8px rgba(0,0,0,.5);
+}
+.login-box.neon-on button:hover {
+    box-shadow: 0 0 28px var(--neon), 0 4px 16px rgba(0,0,0,.5);
+    filter: brightness(1.1);
+}
+
+/* ══════════════════════════════════
+   LINKS
+   ══════════════════════════════════ */
+.remember-forgot, .register-link { color: #fff; font-size: .9em; transition: .5s; }
+.login-box.neon-on .remember-forgot,
+.login-box.neon-on .register-link { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+.register-link p a, .remember-forgot a { color: #fff; text-decoration: none; font-weight: 600; transition: .5s; }
+.login-box.neon-on .register-link p a,
+.login-box.neon-on .remember-forgot a { color: var(--neon); }
+
+/* ══════════════════════════════════
+   SAKLAR DESKTOP
+   Posisi: absolut ke kanan box
+   ══════════════════════════════════ */
+.toggle {
+    position: absolute;
+    top: 20px; right: -74px;
+    width: 60px; height: 120px;
+    background: #191919;
+    border-radius: 10px;
+    z-index: 20;
+}
+.toggle::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 10px; height: 80%;
+    background: #000; border-radius: 5px;
+}
+.toggle::after {
+    content: '';
+    position: absolute; top: 5px; left: 50%;
+    transform: translateX(-50%);
+    width: 45px; height: 45px;
+    background: #333; border: 2px solid #191919;
+    border-radius: 10px; cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    transition: top .5s, background .5s, box-shadow .5s;
+    z-index: 2;
+}
+.login-box.neon-on .toggle::after {
+    top: 65px;
+    background: var(--neon);
+    box-shadow: 0 0 12px var(--neon);
+}
+.input-check {
+    position: absolute; right: -74px; top: 20px;
+    z-index: 30; opacity: 0;
+    width: 60px; height: 120px; cursor: pointer;
+}
+.toggle .text {
+    position: absolute; left: 50%;
+    transform: translateX(-50%);
+    font-size: .85em; font-weight: 700; z-index: 3;
+    text-transform: uppercase; pointer-events: none;
+    transition: opacity .5s; white-space: nowrap;
+}
+.toggle .text.off { top: 17px; color: #aaa; opacity: 1; }
+.toggle .text.on  { top: 76px; color: var(--neon); text-shadow: 0 0 10px var(--neon); opacity: 0; }
+.login-box.neon-on .toggle .text.off { opacity: 0; }
+.login-box.neon-on .toggle .text.on  { opacity: 1; }
+
+/* ══════════════════════════════════
+   COLOR PICKER DESKTOP
+   ══════════════════════════════════ */
+.color-picker {
+    position: absolute;
+    top: 150px; right: -68px;
+    display: flex; flex-direction: column; gap: 7px;
+    z-index: 20;
+}
+.color-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    cursor: pointer; border: 2px solid #333;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.color-dot:hover, .color-dot.active { transform: scale(1.3); border-color: #fff; }
+.color-dot[data-color="blue"]  { background: #00f7ff; }
+.color-dot[data-color="green"] { background: #00ff88; }
+.color-dot[data-color="pink"]  { background: #ff2d9b; }
+
+/* ══════════════════════════════════
+   INFO PANEL
+   ══════════════════════════════════ */
+#infoToggleBtn:hover { border-color: var(--neon) !important; }
+#infoToggleBtn:hover span { color: var(--neon) !important; }
+#userBadge { color: var(--neon) !important; border-color: rgba(var(--neon-rgb),.25) !important; background: rgba(var(--neon-rgb),.08) !important; }
+#signupLink { color: var(--neon) !important; }
+
+/* ══════════════════════════════════
+   MOBILE CONTROLS (dalam box)
+   ══════════════════════════════════ */
+.mobile-controls { display: none; }
+
+/* ══════════════════════════════════
+   SLIDER
+   ══════════════════════════════════ */
+input[type="range"] { -webkit-appearance:none; appearance:none; height:4px; border-radius:2px; background:#2a2a2a; outline:none; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--neon); cursor:pointer; box-shadow:0 0 6px var(--neon); }
+input[type="range"]::-moz-range-thumb { width:16px; height:16px; border-radius:50%; background:var(--neon); cursor:pointer; border:none; }
+
+/* ══════════════════════════════════
+   MOBILE ≤ 560px
+   Toggle + color picker masuk dalam box
+   ══════════════════════════════════ */
+@media (max-width: 560px) {
+
+    body {
+        padding: 16px;
+        align-items: flex-start;
+        padding-top: 28px;
+    }
+
+    /* Box: center, lebar penuh dengan margin sisi kecil */
+    .login-box {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+        min-height: unset;
+        border-radius: 16px;
+        flex-direction: column;
+        align-items: center;
+        /* WAJIB: hapus semua offset */
+        left: 0 !important;
+        transform: none !important;
+    }
+
+    /* Sembunyikan desktop controls */
+    .toggle        { display: none !important; }
+    .input-check   { display: none !important; }
+    .color-picker  { display: none !important; }
+
+    /* Tampilkan mobile controls */
+    .mobile-controls {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        width: min(310px, 85%);
+        margin: 0 auto 4px;
+        padding: 8px 14px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid #222;
+        border-radius: 30px;
+    }
+
+    .mobile-lamp-label {
+        font-size: 10px; color: #555;
+        font-weight: 600; letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: color .4s;
+    }
+    .login-box.neon-on .mobile-lamp-label {
+        color: var(--neon);
+        text-shadow: 0 0 8px var(--neon);
+    }
+
+    /* Toggle pill */
+    .mobile-toggle-wrap {
+        position: relative;
+        width: 44px; height: 24px;
+        flex-shrink: 0;
+    }
+    .mobile-toggle-track {
+        width: 44px; height: 24px;
+        border-radius: 12px;
+        background: #333;
+        transition: background .4s, box-shadow .4s;
+        cursor: pointer;
+    }
+    .login-box.neon-on .mobile-toggle-track {
+        background: var(--neon);
+        box-shadow: 0 0 10px var(--neon);
+    }
+    .mobile-toggle-knob {
+        position: absolute; top: 3px; left: 3px;
+        width: 18px; height: 18px; border-radius: 50%;
+        background: #fff;
+        transition: left .4s;
+        pointer-events: none;
+        box-shadow: 0 1px 4px rgba(0,0,0,.4);
+    }
+    .login-box.neon-on .mobile-toggle-knob { left: 23px; }
+    .mobile-toggle-input {
+        position: absolute; inset: 0;
+        opacity: 0; cursor: pointer;
+        width: 100%; height: 100%;
+    }
+
+    /* Dots row */
+    .mobile-dots {
+        display: flex; gap: 7px; align-items: center;
+    }
+    .mobile-dots .color-dot { width: 16px; height: 16px; }
+
+    h2 { font-size: 1.6em; }
+
+    /* Form elements: full lebar tapi centered */
+    .login-box form {
+        padding: 20px 0 16px;
+        width: 100%;
+    }
+    .input-box {
+        width: min(290px, 82%);
+        margin: 20px 0;
+    }
+    .remember-forgot,
+    .register-link {
+        width: min(290px, 82%);
+        text-align: center;
+    }
+    button[type="submit"],
+    button[type="button"]:not([onclick*="location"]) {
+        width: min(290px, 82%);
+    }
+}

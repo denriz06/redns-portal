@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+
+/* ── CSS VARIABLE WARNA NEON (default biru) ── */
+:root {
+    --neon: #00f7ff;
+    --neon-rgb: 0,247,255;
+    --neon-dim: rgba(0,247,255,0.08);
+    --neon-border: rgba(0,247,255,0.25);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: #000;
+    overflow-x: hidden;
+    padding: 20px 10px 40px;
+}
+
+/* ── BOX UTAMA ── */
+.login-box {
+    position: relative;
+    z-index: 1;
+    width: min(400px, 84vw);
+    min-height: 600px;
+    background: #191919;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    transition: width .4s ease, box-shadow .5s ease;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-right: 70px;
+    margin-top: 10px;
+}
+
+@media (max-width: 540px) {
+    .login-box { border-radius:16px; padding-top:36px; }
+    body { padding:16px 6px 40px; }
+}
+
+/* ── JUDUL ── */
+h2 {
+    font-size: 1.5em;
+    color: #fff;            /* PUTIH saat lampu OFF */
+    text-align: center;
+    transition: color .5s ease, text-shadow .5s ease;
+    z-index: 10;
+}
+
+/* Saat neon ON → pakai warna variabel */
+.login-box.neon-on h2 {
+    color: var(--neon);
+    text-shadow: 0 0 15px var(--neon), 0 0 30px var(--neon);
+}
+
+/* ── SAKLAR ── */
+.toggle {
+    position: absolute;
+    top: 20px;
+    right: -70px;
+    width: 60px;
+    height: 120px;
+    background: #191919;
+    border-radius: 10px;
+    z-index: 5;
+}
+
+/* Knob — ON default (dashboard mulai checked) */
+.toggle::after {
+    content: '';
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45px;
+    height: 45px;
+    background: #888;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: top .5s ease, background .5s ease, box-shadow .5s ease;
+    z-index: 2;
+}
+
+/* Knob saat ON → warna neon */
+.login-box.neon-on .toggle::after {
+    background: var(--neon);
+    box-shadow: 0 0 12px var(--neon);
+}
+
+/* Knob saat OFF → naik */
+.login-box:not(.neon-on) .toggle::after {
+    top: 5px;
+    background: #333;
+    box-shadow: none;
+}
+
+.input-check {
+    position: absolute;
+    right: -70px;
+    top: 20px;
+    z-index: 100;
+    opacity: 0;
+    width: 60px;
+    height: 120px;
+    cursor: pointer;
+}
+
+@media (max-width: 540px) {
+    .toggle, .input-check { right:-52px; transform:scale(0.82); transform-origin:top left; }
+}
+
+/* Teks ON/OFF */
+.toggle .text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85em;
+    font-weight: 700;
+    z-index: 3;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity .5s ease, color .5s ease;
+    white-space: nowrap;
+}
+
+.toggle .text.off { top:17px; color:#aaa; opacity:0; }
+.toggle .text.on  { top:76px; color:var(--neon); text-shadow:0 0 10px var(--neon); opacity:1; }
+
+.login-box:not(.neon-on) .toggle .text.off { opacity:1; }
+.login-box:not(.neon-on) .toggle .text.on  { opacity:0; }
+
+/* ── COLOR PICKER (3 dots di bawah saklar) ── */
+.color-picker {
+    position: absolute;
+    top: 150px;
+    right: -66px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 6;
+}
+
+.color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #333;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.color-dot:hover, .color-dot.active {
+    transform: scale(1.25);
+    border-color: #fff;
+}
+
+.color-dot.active {
+    box-shadow: 0 0 8px currentColor;
+}
+
+.color-dot[data-color="blue"]  { background:#00f7ff; color:#00f7ff; }
+.color-dot[data-color="green"] { background:#00ff88; color:#00ff88; }
+.color-dot[data-color="pink"]  { background:#ff2d9b; color:#ff2d9b; }
+
+@media (max-width:540px) {
+    .color-picker { right:-50px; top:150px; transform:scale(0.85); transform-origin:top left; }
+}
+
+/* ── LAMPU GANTUNG ── */
+.login-light {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(500px, 100vw);
+    height: 10px;
+    background: var(--neon);
+    border-radius: 20px;
+    box-shadow: 0 0 20px var(--neon);
+    transition: background .5s, box-shadow .5s;
+    z-index: 999;
+}
+
+/* ── CAHAYA SENTER ── */
+.light {
+    position: absolute;
+    top: -150%;
+    left: 0;
+    width: 100%;
+    height: 950px;
+    background: linear-gradient(to bottom, rgba(var(--neon-rgb),0.05) -50%, rgba(255,255,255,0) 90%);
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+    pointer-events: none;
+    transition: top .5s ease;
+}
+
+.login-box.neon-on .light { top: -80%; }
+
+/* ── TAB BUTTONS ── */
+.tab-buttons { width:100%; padding:0 10px; }
+
+.tab-buttons button {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-weight: 600;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.login-box.neon-on .tab-buttons button {
+    border-color: var(--neon);
+    color: var(--neon);
+}
+
+.tab-buttons button:hover,
+.tab-buttons button:active {
+    background: #444 !important;
+    color: #fff !important;
+    box-shadow: none;
+}
+.login-box.neon-on .tab-buttons button:hover,
+.login-box.neon-on .tab-buttons button:active {
+    background: var(--neon) !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px var(--neon);
+}
+
+/* ── CONTENT AREA ── */
+#main-dashboard { width:100%; overflow-x:hidden; }
+#content-area   { overflow-x:hidden; word-break:break-word; }
+
+/* Diskon box melebar: di HP tetap masuk layar */
+@media (max-width:760px) {
+    .login-box[style*="720px"] { width:min(98vw,600px) !important; max-width:98vw !important; margin-right:0 !important; }
+}
+@media (max-width:540px) {
+    .login-box[style*="720px"] { width:84vw !important; max-width:84vw !important; }
+}
+
+/* ══════════════════════════════════
+   MOBILE RESPONSIVE FIXES
+   ══════════════════════════════════ */
+
+/* Pastikan box tidak overflow di HP kecil */
+@media (max-width: 480px) {
+    body { padding: 10px 0 40px; justify-content: center; }
+
+    .login-box {
+        width: 82vw !important;
+        min-height: unset;
+        border-radius: 14px;
+        padding-top: 32px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    /* Toggle saklar di kanan, scale lebih kecil */
+    .toggle, .input-check {
+        right: -46px !important;
+        transform: scale(0.75) !important;
+        transform-origin: top left !important;
+    }
+
+    /* Color picker sesuaikan */
+    .color-picker {
+        right: -44px !important;
+        top: 140px !important;
+        transform: scale(0.8) !important;
+        transform-origin: top left !important;
+    }
+
+    /* Tab buttons: smaller, wrap nicely */
+    .tab-buttons {
+        padding: 0 6px;
+        gap: 5px !important;
+    }
+
+    .tab-buttons button {
+        width: auto !important;
+        min-width: 44px !important;
+        height: 26px !important;
+        font-size: 9px !important;
+        padding: 0 6px !important;
+    }
+
+    /* Content area padding */
+    #content-area { padding: 0 2px; }
+
+    /* Heading ukuran */
+    h2 { font-size: 1.2em; }
+
+    /* Diskon: 2 kolom jadi 1 kolom */
+    #content-area > div[style*="flex-wrap:wrap"],
+    #content-area > div[style*="flex-wrap: wrap"] {
+        flex-direction: column !important;
+    }
+    #content-area > div > div[style*="width:260px"],
+    #content-area > div > div[style*="width: 260px"] {
+        width: 100% !important;
+        flex-basis: auto !important;
+    }
+}
+
+/* Medium screens (tablet kecil) */
+@media (max-width: 600px) and (min-width: 481px) {
+    .login-box { width: 85vw !important; }
+    .tab-buttons button { font-size: 9px !important; padding: 0 5px !important; }
+}
+
+/* Slider styling cross-browser */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: #2a2a2a;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--neon);
+    cursor: pointer;
+    box-shadow: 0 0 6px var(--neon);
+}
+input[type="range"]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--neon);
+    cursor: pointer;
+    border: none;
+}

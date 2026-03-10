@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Redns Web | Entry Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-light"></div>
+
+    <div class="page-center">
+    <div class="login-box" id="loginBox">
+        <form action="#" id="login-form">
+
+            <!-- Desktop: saklar + color picker keluar kanan -->
+            <input type="checkbox" class="input-check" id="input-check">
+            <label for="input-check" class="toggle">
+                <span class="text off">off</span>
+                <span class="text on">on</span>
+            </label>
+            <div class="color-picker">
+                <div class="color-dot active" data-color="blue"  onclick="setNeonColor('blue')"></div>
+                <div class="color-dot"        data-color="green" onclick="setNeonColor('green')"></div>
+                <div class="color-dot"        data-color="pink"  onclick="setNeonColor('pink')"></div>
+            </div>
+
+            <!-- Mobile: kontrol di dalam box -->
+            <div class="mobile-controls">
+                <span class="mobile-lamp-label">Lampu</span>
+                <div class="mobile-toggle-wrap">
+                    <div class="mobile-toggle-track"></div>
+                    <div class="mobile-toggle-knob"></div>
+                    <input type="checkbox" class="mobile-toggle-input" id="mobile-toggle">
+                </div>
+                <div class="mobile-dots">
+                    <div class="color-dot active" data-color="blue"  onclick="setNeonColor('blue')"></div>
+                    <div class="color-dot"        data-color="green" onclick="setNeonColor('green')"></div>
+                    <div class="color-dot"        data-color="pink"  onclick="setNeonColor('pink')"></div>
+                </div>
+            </div>
+
+            <div class="light"></div>
+
+            <h2 id="login-title">Login</h2>
+
+            <div class="input-box auth-field">
+                <span class="icon"><ion-icon name="person"></ion-icon></span>
+                <input type="text" required>
+                <label>ID / Username</label>
+                <div class="input-line"></div>
+            </div>
+
+            <div class="input-box auth-field">
+                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                <input type="password" required>
+                <label>Password</label>
+                <div class="input-line"></div>
+            </div>
+
+            <div class="remember-forgot auth-field">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#" onclick="showForgot()">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="auth-field">Login</button>
+
+            <div class="register-link auth-field">
+                <p>Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
+            </div>
+
+            <!-- Info Login Panel -->
+            <div class="auth-field" style="flex-direction:column;width:min(310px,85%);margin-top:4px;margin-bottom:8px;">
+                <div id="infoToggleBtn" onclick="toggleLoginInfo()" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:7px 12px;background:rgba(255,255,255,0.04);border:1px solid #2a2a2a;border-radius:8px;transition:.3s;">
+                    <span style="font-size:10px;font-weight:600;letter-spacing:1px;color:#555;">&#9432; INFO LOGIN</span>
+                    <span id="infoChevron" style="font-size:10px;color:#444;transition:transform .3s;">&#9660;</span>
+                </div>
+                <div id="infoPanel" style="display:none;margin-top:6px;background:#0d0d0d;border:1px solid #1e1e1e;border-radius:10px;overflow:hidden;">
+                    <div style="padding:10px 12px;border-bottom:1px solid #1a1a1a;">
+                        <span style="font-size:9px;background:rgba(255,170,0,0.15);border:1px solid rgba(255,170,0,0.3);color:#ffaa00;border-radius:20px;padding:2px 8px;font-weight:700;letter-spacing:1px;display:inline-block;margin-bottom:6px;">ADMIN</span>
+                        <div style="display:flex;gap:8px;">
+                            <div style="flex:1;background:#111;border-radius:6px;padding:7px 10px;">
+                                <div style="font-size:9px;color:#555;margin-bottom:2px;">Username</div>
+                                <div style="font-size:13px;font-weight:700;color:#fff;font-family:monospace;">admin</div>
+                            </div>
+                            <div style="flex:1;background:#111;border-radius:6px;padding:7px 10px;">
+                                <div style="font-size:9px;color:#555;margin-bottom:2px;">Password</div>
+                                <div style="font-size:13px;font-weight:700;color:#fff;font-family:monospace;">12345</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:10px 12px;">
+                        <span id="userBadge" style="font-size:9px;background:rgba(0,247,255,0.1);border:1px solid rgba(0,247,255,0.25);color:#00f7ff;border-radius:20px;padding:2px 8px;font-weight:700;letter-spacing:1px;display:inline-block;margin-bottom:6px;">USER</span>
+                        <div style="font-size:10px;color:#555;line-height:1.6;">
+                            Belum punya akun? Klik <span id="signupLink" onclick="showRegister()" style="color:#00f7ff;cursor:pointer;font-weight:600;text-decoration:underline;">Sign Up</span> untuk daftar.<br>
+                            Atau minta ID &amp; password dari admin.
+                        </div>
+                        <div id="savedAccounts" style="margin-top:8px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register -->
+            <div id="register-content" style="display:none;flex-direction:column;width:min(310px,85%);">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-add"></ion-icon></span>
+                    <input type="text" id="reg-user">
+                    <label>New ID</label>
+                    <div class="input-line"></div>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                    <input type="password" id="reg-pass">
+                    <label>New Password</label>
+                    <div class="input-line"></div>
+                </div>
+                <button type="button" onclick="handleRegister()" style="margin-top:20px;">Register</button>
+                <div class="register-link">
+                    <p>Already have account? <a href="#" onclick="backToLogin()">Login</a></p>
+                </div>
+            </div>
+
+            <!-- Forgot -->
+            <div id="forgot-content" style="display:none;flex-direction:column;width:min(310px,85%);">
+                <p style="color:#fff;font-size:.8em;text-align:center;margin-bottom:20px;">Enter your ID to recover password</p>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="search"></ion-icon></span>
+                    <input type="text" id="forgot-user">
+                    <label>Your ID</label>
+                    <div class="input-line"></div>
+                </div>
+                <button type="button" onclick="handleRecover()" style="margin-top:20px;">Check Password</button>
+                <div class="register-link">
+                    <p><a href="#" onclick="backToLogin()">Back to Login</a></p>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    </div><!-- /page-center -->
+
+    <script src="script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+    // ── Neon color system ──
+    var NEON_MAP = {
+        blue:  { neon:'#00f7ff', rgb:'0,247,255'   },
+        green: { neon:'#00ff88', rgb:'0,255,136'   },
+        pink:  { neon:'#ff2d9b', rgb:'255,45,155'  }
+    };
+    function applyNeonColor(k) {
+        var col = NEON_MAP[k] || NEON_MAP.blue;
+        document.documentElement.style.setProperty('--neon', col.neon);
+        document.documentElement.style.setProperty('--neon-rgb', col.rgb);
+        document.querySelectorAll('.color-dot').forEach(function(d) {
+            d.classList.toggle('active', d.getAttribute('data-color') === k);
+        });
+        // Update info panel warna
+        var badge = document.getElementById('userBadge');
+        var link  = document.getElementById('signupLink');
+        if (badge) { badge.style.color = col.neon; badge.style.borderColor = col.neon+'44'; }
+        if (link)  { link.style.color  = col.neon; }
+    }
+    window.setNeonColor = function(k) {
+        localStorage.setItem('neonColor', k);
+        applyNeonColor(k);
+        renderSavedAccounts();
+    };
+    applyNeonColor(localStorage.getItem('neonColor') || 'blue');
+
+    // ── Neon ON/OFF toggle sync ──
+    var loginBox  = document.getElementById('loginBox');
+    var desktopCb = document.getElementById('input-check');
+    var mobileCb  = document.getElementById('mobile-toggle');
+
+    function applyNeonState(on) {
+        loginBox.classList.toggle('neon-on', on);
+        desktopCb.checked = on;
+        mobileCb.checked  = on;
+        localStorage.setItem('neonState', on ? 'on' : 'off');
+    }
+    desktopCb.addEventListener('change', function() { applyNeonState(this.checked); });
+    mobileCb.addEventListener('change',  function() { applyNeonState(this.checked); });
+    applyNeonState(localStorage.getItem('neonState') === 'on');
+
+    // ── Info panel ──
+    window.toggleLoginInfo = function() {
+        var panel   = document.getElementById('infoPanel');
+        var chevron = document.getElementById('infoChevron');
+        var btn     = document.getElementById('infoToggleBtn');
+        var neon    = getComputedStyle(document.documentElement).getPropertyValue('--neon').trim();
+        var open    = panel.style.display === 'none';
+        panel.style.display     = open ? 'block' : 'none';
+        chevron.style.transform = open ? 'rotate(180deg)' : '';
+        btn.style.borderColor   = open ? neon+'55' : '#2a2a2a';
+        if (open) renderSavedAccounts();
+    };
+
+    function renderSavedAccounts() {
+        var el   = document.getElementById('savedAccounts');
+        if (!el) return;
+        var db   = JSON.parse(localStorage.getItem('usersDB') || '{}');
+        var keys = Object.keys(db);
+        var neon = getComputedStyle(document.documentElement).getPropertyValue('--neon').trim() || '#00f7ff';
+        if (keys.length === 0) {
+            el.innerHTML = '<div style="font-size:9px;color:#333;font-style:italic;">Belum ada akun user terdaftar.</div>';
+            return;
+        }
+        el.innerHTML = '<div style="font-size:9px;color:#444;margin-bottom:5px;letter-spacing:1px;">AKUN TERDAFTAR:</div>' +
+            keys.map(function(u) {
+                return '<div style="display:flex;justify-content:space-between;padding:5px 8px;background:#111;border-radius:5px;margin-bottom:4px;">' +
+                    '<span style="font-size:11px;font-weight:600;color:#fff;font-family:monospace;">' + u + '</span>' +
+                    '<span style="font-size:11px;color:' + neon + ';font-family:monospace;">' + db[u].pass + '</span>' +
+                '</div>';
+            }).join('');
+    }
+    </script>
+
+    <script src="dragon.js"></script>
+</body>
+</html>
